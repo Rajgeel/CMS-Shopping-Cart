@@ -2,6 +2,7 @@ package cms.project.CMSShoppingCart.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +16,12 @@ import cms.project.CMSShoppingCart.models.entity.Page;
 @RequestMapping("/admin/pages")
 public class AdminPagesController {
 
+    @Autowired
     private PageRepository pageRepository;
 
-    public AdminPagesController(PageRepository pageRepository) {
-        this.pageRepository = pageRepository;
-    }
+    // public AdminPagesController(PageRepository pageRepository) {
+    //     this.pageRepository = pageRepository;
+    // }
 
     @GetMapping
     public String index(Model model) {
