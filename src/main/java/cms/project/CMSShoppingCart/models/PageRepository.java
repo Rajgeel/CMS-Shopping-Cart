@@ -7,4 +7,6 @@ import cms.project.CMSShoppingCart.models.entity.Page;
 
 public interface PageRepository extends JpaRepository<Page, Integer>{
 
+    Page findBySlug(String slug);
+
 }
