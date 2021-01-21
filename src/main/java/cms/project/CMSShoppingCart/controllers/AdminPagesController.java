@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cms.project.CMSShoppingCart.models.PageRepository;
@@ -32,7 +34,7 @@ public class AdminPagesController {
     @GetMapping
     public String index(Model model) {
 
-        List<Page> pages = pageRepository.findAll();
+        List<Page> pages = pageRepository.findAllByOrderBySortingAsc();
 
         model.addAttribute("pages", pages);
 
@@ -138,5 +140,21 @@ public class AdminPagesController {
 
         return "redirect:/admin/pages";
 
+    }
+
+    @PostMapping("/reorder")
+    public @ResponseBody String reorder(@RequestParam("id[]") int[] id) {
+
+        int count = 1;
+        Page page;
+
+        for(int pageId : id) {
+            page = pageRepository.getOne(pageId);
+            page.setSorting(count);
+            pageRepository.save(page);
+            count++;
+        }
+
+        return "ok";
     }
 }
