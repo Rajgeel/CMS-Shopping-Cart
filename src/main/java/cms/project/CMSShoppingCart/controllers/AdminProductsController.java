@@ -55,14 +55,17 @@ public class AdminProductsController {
     @PostMapping("/add")
     public String add(@Valid Product product, BindingResult bindingResult,MultipartFile file, RedirectAttributes redirectAttributes, Model model) throws IOException {
 
+        List<Category> categories = CategoryRepository.findAll();
+
         if(bindingResult.hasErrors()) {
-            return "admin/categories/add";
+            model.addAttribute("categories", categories);
+            return "admin/products/add";
         }
 
         boolean fileOK = false;
         byte[] bytes = file.getBytes();
         String filename = file.getOriginalFilename();
-        Path path = Paths.get("src/main/resources/static");
+        Path path = Paths.get("src/main/resources/static/media/" + filename);
 
         if(filename.endsWith("jpg") || filename.endsWith("png")) {
             fileOK = true;
@@ -79,12 +82,14 @@ public class AdminProductsController {
 
             redirectAttributes.addFlashAttribute("message", "Image must be a jpg or a png exists");
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+            redirectAttributes.addFlashAttribute("product", product);
         }
 
         else if(productExists != null) {
 
             redirectAttributes.addFlashAttribute("message", "Product exists, choose another");
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+            redirectAttributes.addFlashAttribute("product", product);
 
 
         }
@@ -99,7 +104,7 @@ public class AdminProductsController {
         }
 
 
-        return "redirect:/admin/pages/add";
+        return "redirect:/admin/products/add";
     }
     
 }
