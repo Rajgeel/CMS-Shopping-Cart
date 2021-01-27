@@ -18,6 +18,6 @@ public class WebConfig implements WebMvcConfigurer{
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
             .addResourceHandler("/media/**")
-            .addResourceLocations("file://home/rohit/Desktop/CMS-ShoppingCart/src/main/resources/static/media");
+            .addResourceLocations("file:/home/rohit/Desktop/CMS-ShoppingCart/src/main/resources/static/media/");
     }
 }
