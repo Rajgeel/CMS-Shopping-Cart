@@ -23,7 +23,7 @@
                    <th>Price</th>
                    <th>Edit</th>
                    <th>Delete</th>
-               </tr>
+               </tr>());
                <tr th:each="product: ${products}">
                    <td th:text="${product.name}"></td>
                    <td>
@@ -36,6 +36,15 @@
                </tr>
            </table>
        </div>
+
+       <nav class="mt-3" th:if="${count > perPage}">
+           <ul class="pagination">
+               <li class="page-item" th:each="number: ${#numbers.sequence(0, pageCount-1)}" th:classappend="${page==number} ? 'active' : ''">
+                   <a th:href="@{${#httpServletRequest.requestURI}} + '?page=__${number}__'" class="page-link" th:text="${number+1}"></a>
+               </li>
+           </ul>
+       </nav>
+
        <div th:unless="${!products.empty}">
             <h4 class="display">There are no products at the moment</h4>
        </div>
